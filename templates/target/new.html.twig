@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Target{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un bénéficiaire</h1>
+
+    {{ include('target/_form.html.twig') }}
+
+    <a href="{{ path('target_index') }}">Retourner à la liste des bénéficiaires</a>
+{% endblock %}

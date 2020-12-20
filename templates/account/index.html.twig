@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account index{% endblock %}
+
+{% block body %}
+    <h1>Account index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IBAN</th>
+                <th>Balance</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for account in accounts %}
+            <tr>
+                <td>{{ account.IBAN }}</td>
+                <td>{{ account.balance }}</td>
+                <td>
+                    <form method="post" action="{{ path('account_delete', {'id': account.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ account.id) }}">
+                        <button class="btn">Delete</button>
+                    </form>
+                    <button class="btn"><a href="{{ path('account_edit', {'id': account.id}) }}">modifier</a></button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% if role=='ROLE_ADMIN' %}
+    <a href="{{ path('account_new') }}">Créer un compte bancaire</a>
+    <btn><a href="{{ path('app_register') }}">Créer un utilisateur</a></btn>
+{% endif %}
+<br/>
+<a href="{{ path('target_index') }}">Voir les bénéficiaires</a>
+<a href="{{ path('transactions_index') }}">Voir les transactions</a>
+<br/>
+
+     <a href="{{ path('app_logout') }}">Se déconnecter</a>
+{% endblock %}
